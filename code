@@ -6,7 +6,7 @@ using namespace std;
 //list of functions
 void fail(const string& prompt, int& value);
 void intro();
-void OpeningScreen(int& option, string& p1Name);
+void OpeningScreen(int& option, string& p1Name, string& p2Name, string& p3Name);
 
 void startcards(int& c1, int& c2, int& c3, int& c4, int& c5, int& c6,
                 int& p2c1, int& p2c2, int& p2c3, int& p2c4, int& p2c5, int& p2c6,
@@ -41,7 +41,7 @@ string lookupArt(int card,
                  string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
                  string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK);
 
-int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
+int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string& p2Name, string& p3Name,
              int& p1score, int& p2score, int& p3score,
              int& p1round, int& p2round, int& p3round,
              int& leader,
@@ -51,7 +51,7 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
              string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
              string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK);
 
-int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
+int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string& p2Name, string& p3Name,
                int& p1score, int& p2score, int& p3score,
                bool p2alive, bool p3alive, int& leader,
                string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
@@ -177,6 +177,8 @@ bool handlePlayerElimination(int& p1score, int& p2score, int& p3score) { //depen
 void playGame() { //variables for playing game
 	int option;
 	string p1Name;
+	string p2Name;
+	string p3Name;
 
 	string c1art, c2art, c3art, c4art, c5art, c6art;
 	string p2c1art, p2c2art, p2c3art, p2c4art, p2c5art, p2c6art;
@@ -196,7 +198,7 @@ void playGame() { //variables for playing game
 	int leader = 1;
 
 	while (playAgain) {
-		OpeningScreen(option, p1Name); //scores display
+		OpeningScreen(option, p1Name, p2Name, p3Name); //scores display
 
 		int p1score = 30;
 		int p2score = 30;
@@ -232,7 +234,7 @@ void playGame() { //variables for playing game
 			       DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
 			       HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
 
-			leader = playRound(cards1, cards2, cards3, p1Name, //varibales for art in rounds
+			leader = playRound(cards1, cards2, cards3, p1Name, p2Name, p3Name, //varibales for art in rounds
 			          p1score, p2score, p3score,
 			          p2alive, p3alive, leader,
 			          ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
@@ -270,7 +272,7 @@ void playGame() { //variables for playing game
 	cout << "Thanks for playing!\n";
 }
 
-int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
+int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string& p2Name, string& p3Name,
                int& p1score, int& p2score, int& p3score,
                bool p2alive, bool p3alive, int& leader,
                string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
@@ -287,7 +289,7 @@ int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
 			break;
 		}
 
-		leader = playTurn(cards1, cards2, cards3, p1Name,
+		leader = playTurn(cards1, cards2, cards3, p1Name, p2Name, p3Name,
 		                  p1score, p2score, p3score,
 		                  p1round, p2round, p3round,
 		                  leader,
@@ -333,7 +335,7 @@ int chooseCardForAI(int cards[6], int refCard) {
 	return index;
 }
 
-int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
+int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string& p2Name, string& p3Name,
              int& p1score, int& p2score, int& p3score,
              int& p1round, int& p2round, int& p3round,
              int& leader,
@@ -412,7 +414,7 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
 	                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
 
 	if (p2alive) {
-		cout << "Player 2 played: " << getCardName(p2card) << "\n";
+		cout << "" << p2Name << " played: " << getCardName(p2card) << "\n";
 		cout << lookupArt(p2card,
 		                  ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
 		                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
@@ -421,7 +423,7 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
 	}
 
 	if (p3alive) {
-		cout << "Player 3 played: " << getCardName(p3card) << "\n";
+		cout << "" << p2Name << " played: " << getCardName(p3card) << "\n";
 		cout << lookupArt(p3card,
 		                  ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
 		                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
@@ -473,18 +475,18 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
 		p2round--;
 		int v = getCardValueForpoints(p2card);
 		p2score -= v;
-		cout << "Player 2 loses this turn, -" << v << " points.\n";
+		cout << "" << p2Name << " loses this turn, -" << v << " points.\n";
 	} else {
 		p3round--;
 		int v = getCardValueForpoints(p3card);
 		p3score -= v;
-		cout << "Player 3 loses this turn, -" << v << " points.\n";
+		cout << "" << p3Name << " loses this turn, -" << v << " points.\n";
 	}
 
 	cout << "Scores now:\n";
 	cout << "" << p1Name << ": " << p1score << "\n";
-	cout << "Player 2: " << p2score << "\n";
-	cout << "Player 3: " << p3score << "\n";
+	cout << "" << p2Name << ": " << p2score << "\n";
+	cout << "" << p3Name << ": " << p3score << "\n";
 
 	return highId;
 }
@@ -509,12 +511,16 @@ void intro() {
 	cout << "--------------------\n";
 }
 
-void OpeningScreen(int& option, string& p1Name) {
+void OpeningScreen(int& option, string& p1Name, string& p2Name, string& p3Name) {
 	do {
 		fail("\n1. Start Game\n2. Rules\n\nInput: ", option);
 		if (option == 1) {
 		    cout << "\nWhat is your username?\nInput: ";
 		    cin >> p1Name;
+		    cout << "\nWhat is Player 2 (Bot)'s username?\nInput: ";
+		    cin >> p2Name;
+		    cout << "\nWhat is Player 3 (Bot)'s username?\nInput: ";
+		    cin >> p3Name;
 			cout << "\nStarting game... \n";
 			break;
 		}
