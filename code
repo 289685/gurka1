@@ -1,4 +1,4 @@
-#include <iostream> // input output
+#include <iostream> // input output 
 #include <cstdlib>  // random
 #include <ctime>    // time
 #include <string>   // string
@@ -6,7 +6,7 @@ using namespace std;
 //list of functions
 void fail(const string& prompt, int& value);
 void intro();
-void OpeningScreen(int& option);
+void OpeningScreen(int& option, string& p1Name);
 
 void startcards(int& c1, int& c2, int& c3, int& c4, int& c5, int& c6,
                 int& p2c1, int& p2c2, int& p2c3, int& p2c4, int& p2c5, int& p2c6,
@@ -41,19 +41,19 @@ string lookupArt(int card,
                  string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
                  string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK);
 
-int playTurn(int cards1[6], int cards2[6], int cards3[6],
+int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
              int& p1score, int& p2score, int& p3score,
              int& p1round, int& p2round, int& p3round,
-             int leader,
+             int& leader,
              bool p2alive, bool p3alive,
              string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
              string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
              string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
              string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK);
 
-void playRound(int cards1[6], int cards2[6], int cards3[6],
+int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
                int& p1score, int& p2score, int& p3score,
-               bool p2alive, bool p3alive,
+               bool p2alive, bool p3alive, int& leader,
                string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
                string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
                string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
@@ -72,21 +72,21 @@ int main() {
 	return 0;
 }
 
-string getCardName(int card) {
+string getCardName(int card) { //makes card names based off
 	static const string ranks[] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
 	static const string suits[] = {"Clubs", "Spades", "Diamonds", "Hearts"};
 	int idx = card - 1;
 	int suit = idx / 13;
 	int rank = idx % 13;
-	return ranks[rank] + " of " + suits[suit];
+	return ranks[rank] + " of " + suits[suit]; //displays card info
 }
 
-int getCardValueForpoints(int card) {
+int getCardValueForpoints(int card) { //depending on the card picked it assigns values
 	int r = (card - 1) % 13 + 1;
 	return r;
 }
 
-string lookupArt(int card,
+string lookupArt(int card, // depending on card value assigns different art
                  string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
                  string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
                  string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
@@ -146,10 +146,10 @@ string lookupArt(int card,
 	return "";
 }
 
-bool askPlayAgain() {
+bool askPlayAgain() { //asks if player would like to play again and takes in input
 	int choice;
 	while (true) {
-		cout << "Would you like to play again? (1 = yes, 2 = no): ";
+		cout << "\nPlay again?\n1. Yes\n 2. No\nInput: ";
 		cin >> choice;
 
 		if (cin.fail()) {
@@ -166,7 +166,7 @@ bool askPlayAgain() {
 	}
 }
 
-bool handlePlayerElimination(int& p1score, int& p2score, int& p3score) {
+bool handlePlayerElimination(int& p1score, int& p2score, int& p3score) { //depending on player score itll kick out the player
 	if (p1score <= 0) {
 		cout << "You lost\n";
 		return true;
@@ -174,8 +174,9 @@ bool handlePlayerElimination(int& p1score, int& p2score, int& p3score) {
 	return false;
 }
 
-void playGame() {
+void playGame() { //variables for playing game
 	int option;
+	string p1Name;
 
 	string c1art, c2art, c3art, c4art, c5art, c6art;
 	string p2c1art, p2c2art, p2c3art, p2c4art, p2c5art, p2c6art;
@@ -192,9 +193,10 @@ void playGame() {
 	intro();
 
 	bool playAgain = true;
+	int leader = 1;
 
 	while (playAgain) {
-		OpeningScreen(option);
+		OpeningScreen(option, p1Name); //scores display
 
 		int p1score = 30;
 		int p2score = 30;
@@ -217,22 +219,22 @@ void playGame() {
 			int cards2[6] = {p2c1, p2c2, p2c3, p2c4, p2c5, p2c6};
 			int cards3[6] = {p3c1, p3c2, p3c3, p3c4, p3c5, p3c6};
 
-			cout << "Your cards:\n";
+			cout << "\nYour cards:\n";
 			for (int i = 0; i < 6; i++) {
 				cout << (i + 1) << ") " << getCardName(cards1[i]) << "\n";
 			}
 			cout << "\n";
 
-			ArtsP1(c1, c1, c2, c3, c4, c5, c6,
+			ArtsP1(c1, c1, c2, c3, c4, c5, c6, //variables for card art
 			       c1art, c2art, c3art, c4art, c5art, c6art,
 			       ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
 			       SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
 			       DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
 			       HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
 
-			playRound(cards1, cards2, cards3,
+			leader = playRound(cards1, cards2, cards3, p1Name, //varibales for art in rounds
 			          p1score, p2score, p3score,
-			          p2alive, p3alive,
+			          p2alive, p3alive, leader,
 			          ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
 			          SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
 			          DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
@@ -245,13 +247,13 @@ void playGame() {
 				break;
 			}
 
-			fail("Enter 1 to play next round or 2 to stop: ", again);
+			fail("\n1. Begin next round\n2. End game\nInput: ", again);
 
 		} while (again == 1);
 
 		cout << "Game over\n";
 
-		bool endGame = handlePlayerElimination(p1score, p2score, p3score);
+		bool endGame = handlePlayerElimination(p1score, p2score, p3score); //checks if game ended
 
 		if (endGame) {
 			playAgain = askPlayAgain();
@@ -268,9 +270,9 @@ void playGame() {
 	cout << "Thanks for playing!\n";
 }
 
-void playRound(int cards1[6], int cards2[6], int cards3[6],
+int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
                int& p1score, int& p2score, int& p3score,
-               bool p2alive, bool p3alive,
+               bool p2alive, bool p3alive, int& leader,
                string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
                string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
                string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
@@ -280,14 +282,12 @@ void playRound(int cards1[6], int cards2[6], int cards3[6],
 	int p2round = 0;
 	int p3round = 0;
 
-	int leader = 1;
-
 	for (int t = 0; t < 6; t++) {
 		if (p1score <= 0 || (p2score <= 0 && p3score <= 0)) {
 			break;
 		}
 
-		leader = playTurn(cards1, cards2, cards3,
+		leader = playTurn(cards1, cards2, cards3, p1Name,
 		                  p1score, p2score, p3score,
 		                  p1round, p2round, p3round,
 		                  leader,
@@ -311,6 +311,7 @@ void playRound(int cards1[6], int cards2[6], int cards3[6],
 		}
 		cout << "Total remaining: " << remaining << "\n\n";
 	}
+	return leader;
 }
 
 int chooseCardForAI(int cards[6], int refCard) {
@@ -332,10 +333,10 @@ int chooseCardForAI(int cards[6], int refCard) {
 	return index;
 }
 
-int playTurn(int cards1[6], int cards2[6], int cards3[6],
+int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name,
              int& p1score, int& p2score, int& p3score,
              int& p1round, int& p2round, int& p3round,
-             int leader,
+             int& leader,
              bool p2alive, bool p3alive,
              string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
              string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
@@ -403,7 +404,7 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6],
 		}
 	}
 
-	cout << "You played: " << getCardName(p1card) << "\n";
+	cout << "" << p1Name << " played: " << getCardName(p1card) << "\n";
 	cout << lookupArt(p1card,
 	                  ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
 	                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
@@ -467,7 +468,7 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6],
 		p1round--;
 		int v = getCardValueForpoints(p1card);
 		p1score -= v;
-		cout << "You lose this turn, -" << v << " points.\n";
+		cout << "" << p1Name << " loses this turn, -" << v << " points.\n";
 	} else if (lowId == 2) {
 		p2round--;
 		int v = getCardValueForpoints(p2card);
@@ -481,7 +482,7 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6],
 	}
 
 	cout << "Scores now:\n";
-	cout << "You: " << p1score << "\n";
+	cout << "" << p1Name << ": " << p1score << "\n";
 	cout << "Player 2: " << p2score << "\n";
 	cout << "Player 3: " << p3score << "\n";
 
@@ -503,18 +504,22 @@ void fail(const string& prompt, int& value) {
 }
 
 void intro() {
-	cout << "Welcome to Gurka\n";
+	cout << "--------------------\n";
+	cout << "    G  U  R  K  A   \n";
+	cout << "--------------------\n";
 }
 
-void OpeningScreen(int& option) {
+void OpeningScreen(int& option, string& p1Name) {
 	do {
-		fail("Enter 1 to start or 2 for rules: ", option);
+		fail("\n1. Start Game\n2. Rules\n\nInput: ", option);
 		if (option == 1) {
-			cout << "Starting game...\n";
+		    cout << "\nWhat is your username?\nInput: ";
+		    cin >> p1Name;
+			cout << "\nStarting game... \n";
 			break;
 		}
 		else if (option == 2) {
-			cout << "|-------------------------|\n";
+			cout << "\n|-------------------------|\n";
 			cout << "|        GURKA RULES      |\n";
 			cout << "|-------------------------|\n";
 			cout << "| Players: 3              |\n";
@@ -522,17 +527,23 @@ void OpeningScreen(int& option) {
 			cout << "|-------------------------|\n";
 			cout << "| Setup:                  |\n";
 			cout << "| - Deal 6 cards per      |\n";
+			cout << "|   player                |\n";
 			cout << "|-------------------------|\n";
 			cout << "| Play:                   |\n";
-			cout << "| - must play higher card |\n";
-			cout << "| - otherwise play lowest |\n";
-			cout << "| - play clockwise        |\n";
+			cout << "| - must play highest or  |\n";
+			cout << "|  same card (rank)       |\n";
+			cout << "| - otherwise MUST play   |\n";
+			cout << "|   lowest card in hand   |\n";
+			cout << "| - Winner of prior round |\n";
+			cout << "|   goes first            |\n";
 			cout << "|-------------------------|\n";
 			cout << "| Win:                    |\n";
-			cout << "| - first to 0 loses      |\n";
+			cout << "| - each player has 30 HP |\n";
+			cout << "| - last player standing  |\n";
+			cout << "|   (with points) wins    |\n";
 			cout << "|-------------------------|\n";
 			int returnmenu;
-			fail("Press any number to return\n", returnmenu);
+			fail("\nPress any number to return: ", returnmenu);
 		} else {
 			cout << "Invalid input\n";
 		}
@@ -682,3 +693,8 @@ void ArtsP3(int& card, int& p3c1, int& p3c2, int& p3c3, int& p3c4, int& p3c5, in
 	       DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
 	       HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
 }
+
+
+
+
+
