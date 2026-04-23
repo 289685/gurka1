@@ -45,19 +45,19 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string
              int& p1score, int& p2score, int& p3score,
              int& p1round, int& p2round, int& p3round,
              int& leader,
-             bool p2alive, bool p3alive,
+             bool& p2alive, bool& p3alive,
              string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
              string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
              string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
              string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK);
 
 int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string& p2Name, string& p3Name,
-               int& p1score, int& p2score, int& p3score,
-               bool p2alive, bool p3alive, int& leader,
-               string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
-               string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
-               string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
-               string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK);
+              int& p1score, int& p2score, int& p3score,
+              bool& p2alive, bool& p3alive, int& leader,
+              string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
+              string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
+              string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
+              string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK);
 
 void playGame();
 
@@ -235,15 +235,22 @@ void playGame() { //variables for playing game
 			       HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
 
 			leader = playRound(cards1, cards2, cards3, p1Name, p2Name, p3Name, //varibales for art in rounds
-			          p1score, p2score, p3score,
-			          p2alive, p3alive, leader,
-			          ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
-			          SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
-			          DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
-			          HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+			                   p1score, p2score, p3score,
+			                   p2alive, p3alive, leader,
+			                   ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+			                   SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+			                   DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+			                   HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
 
-			if (p2score <= 0) p2alive = false;
-			if (p3score <= 0) p3alive = false;
+			if (p2score <= 0 && p2alive) {
+				p2alive = false;
+				cout << p2Name << " has been eliminated!\n";
+			}
+
+			if (p3score <= 0 && p3alive) {
+				p3alive = false;
+				cout << p3Name << " has been eliminated!\n";
+			}
 
 			if (p1score <= 0 || (!p2alive && !p3alive)) {
 				break;
@@ -273,12 +280,12 @@ void playGame() { //variables for playing game
 }
 
 int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string& p2Name, string& p3Name,
-               int& p1score, int& p2score, int& p3score,
-               bool p2alive, bool p3alive, int& leader,
-               string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
-               string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
-               string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
-               string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK) {
+              int& p1score, int& p2score, int& p3score,
+              bool& p2alive, bool& p3alive, int& leader,
+              string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
+              string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
+              string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
+              string& HA, string& H2, string& H3, string& H4, string& H5, string& H6, string& H7, string& H8, string& H9, string& H10, string& HJ, string& HQ, string& HK) {
 
 	int p1round = 0;
 	int p2round = 0;
@@ -317,6 +324,7 @@ int playRound(int cards1[6], int cards2[6], int cards3[6], string& p1Name, strin
 }
 
 int chooseCardForAI(int cards[6], int refCard) {
+	if (cards == nullptr) return -1;
 	int index = -1;
 	if (refCard != -1) {
 		for (int i = 0; i < 6 && index == -1; i++) {
@@ -332,6 +340,7 @@ int chooseCardForAI(int cards[6], int refCard) {
 			}
 		}
 	}
+	if (index == -1) return 0;
 	return index;
 }
 
@@ -339,7 +348,7 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string
              int& p1score, int& p2score, int& p3score,
              int& p1round, int& p2round, int& p3round,
              int& leader,
-             bool p2alive, bool p3alive,
+             bool& p2alive, bool& p3alive,
              string& ClA, string& Cl2, string& Cl3, string& Cl4, string& Cl5, string& Cl6, string& Cl7, string& Cl8, string& Cl9, string& Cl10, string& ClJ, string& ClQ, string& ClK,
              string& SA, string& S2, string& S3, string& S4, string& S5, string& S6, string& S7, string& S8, string& S9, string& S10, string& SJ, string& SQ, string& SK,
              string& DA, string& D2, string& D3, string& D4, string& D5, string& D6, string& D7, string& D8, string& D9, string& D10, string& DJ, string& DQ, string& DK,
@@ -347,6 +356,11 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string
 
 	int p1card = 0, p2card = 0, p3card = 0;
 	int refCard = -1;
+	auto pause = []() {
+		cout << "\nPress ENTER to continue...";
+		cin.ignore();
+		cin.get();
+	};
 
 	auto humanPlay = [&](int cards[6]) {
 		int play1;
@@ -375,76 +389,126 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string
 	};
 
 	if (leader == 1) {
+		// Player 1
 		p1card = humanPlay(cards1);
 		refCard = p1card;
+		cout << p1Name << " played: " << getCardName(p1card) << "\n";
+		cout << lookupArt(p1card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+		                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+		                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+		                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+		pause();
+
 		if (p2alive) {
 			p2card = aiPlay(cards2);
-			refCard = p2card;
+			cout << p2Name << " played: " << getCardName(p2card) << "\n";
+			cout << lookupArt(p2card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+			                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+			                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+			                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+			pause();
 		}
+
 		if (p3alive) {
 			p3card = aiPlay(cards3);
+			cout << p3Name << " played: " << getCardName(p3card) << "\n";
+			cout << lookupArt(p3card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+			                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+			                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+			                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+			pause();
 		}
+
 	} else if (leader == 2) {
+
 		if (p2alive) {
 			p2card = aiPlay(cards2);
 			refCard = p2card;
+			cout << p2Name << " played: " << getCardName(p2card) << "\n";
+			cout << lookupArt(p2card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+			                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+			                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+			                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+			pause();
 		}
+
+		if (p3alive) {
+			p3card = aiPlay(cards3);
+			cout << p3Name << " played: " << getCardName(p3card) << "\n";
+			cout << lookupArt(p3card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+			                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+			                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+			                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+			pause();
+		}
+
+		cout << "\nYour turn\n";
+		cout << "You must beat: " << getCardName(refCard) << "\n\n";
+
+		p1card = humanPlay(cards1);
+		cout << p1Name << " played: " << getCardName(p1card) << "\n";
+		cout << lookupArt(p1card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+		                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+		                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+		                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+		pause();
+
+	} else if (leader == 3) {
+
 		if (p3alive) {
 			p3card = aiPlay(cards3);
 			refCard = p3card;
+			cout << p3Name << " played: " << getCardName(p3card) << "\n";
+			cout << lookupArt(p3card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+			                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+			                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+			                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+			pause();
 		}
+
+		cout << "\nYour turn\n";
+		cout << "You must beat: " << getCardName(refCard) << "\n\n";
+
 		p1card = humanPlay(cards1);
-	} else {
-		if (p3alive) {
-			p3card = aiPlay(cards3);
-			refCard = p3card;
-		}
-		p1card = humanPlay(cards1);
-		refCard = p1card;
+		cout << p1Name << " played: " << getCardName(p1card) << "\n";
+		cout << lookupArt(p1card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+		                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+		                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+		                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+		pause();
+
 		if (p2alive) {
 			p2card = aiPlay(cards2);
+			cout << p2Name << " played: " << getCardName(p2card) << "\n";
+			cout << lookupArt(p2card, ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
+			                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
+			                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
+			                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
+			pause();
 		}
-	}
-
-	cout << "" << p1Name << " played: " << getCardName(p1card) << "\n";
-	cout << lookupArt(p1card,
-	                  ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
-	                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
-	                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
-	                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
-
-	if (p2alive) {
-		cout << "" << p2Name << " played: " << getCardName(p2card) << "\n";
-		cout << lookupArt(p2card,
-		                  ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
-		                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
-		                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
-		                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
-	}
-
-	if (p3alive) {
-		cout << "" << p2Name << " played: " << getCardName(p3card) << "\n";
-		cout << lookupArt(p3card,
-		                  ClA, Cl2, Cl3, Cl4, Cl5, Cl6, Cl7, Cl8, Cl9, Cl10, ClJ, ClQ, ClK,
-		                  SA, S2, S3, S4, S5, S6, S7, S8, S9, S10, SJ, SQ, SK,
-		                  DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
-		                  HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
 	}
 
 	int roundCards[3];
 	int ids[3];
 	int n = 0;
 
-	roundCards[n] = getCardValueForpoints(p1card);
-	ids[n++] = 1;
-	if (p2alive) {
+	if (p1card != 0) {
+		roundCards[n] = getCardValueForpoints(p1card);
+		ids[n++] = 1;
+	}
+
+	if (p2alive && p2card != 0) {
 		roundCards[n] = getCardValueForpoints(p2card);
 		ids[n++] = 2;
 	}
-	if (p3alive) {
+
+	if (p3alive && p3card != 0) {
 		roundCards[n] = getCardValueForpoints(p3card);
 		ids[n++] = 3;
 	}
+
+	if (n == 0) return leader;
+	if (n == 1) return ids[0];
 
 	int high   = roundCards[0];
 	int low    = roundCards[0];
@@ -483,7 +547,17 @@ int playTurn(int cards1[6], int cards2[6], int cards3[6], string& p1Name, string
 		cout << "" << p3Name << " loses this turn, -" << v << " points.\n";
 	}
 
-	cout << "Scores now:\n";
+	cout << "\n------------------------\n";  //Winner disp
+	if (highId == 1) {
+		cout << p1Name << " wins the round!\n";
+	} else if (highId == 2) {
+		cout << p2Name << " wins the round!\n";
+	} else {
+		cout << p3Name << " wins the round!\n";
+	}
+	cout << "------------------------\n";
+
+	cout << "\nScores now:\n"; //Score disp
 	cout << "" << p1Name << ": " << p1score << "\n";
 	cout << "" << p2Name << ": " << p2score << "\n";
 	cout << "" << p3Name << ": " << p3score << "\n";
@@ -515,12 +589,12 @@ void OpeningScreen(int& option, string& p1Name, string& p2Name, string& p3Name) 
 	do {
 		fail("\n1. Start Game\n2. Rules\n\nInput: ", option);
 		if (option == 1) {
-		    cout << "\nWhat is your username?\nInput: ";
-		    cin >> p1Name;
-		    cout << "\nWhat is Player 2 (Bot)'s username?\nInput: ";
-		    cin >> p2Name;
-		    cout << "\nWhat is Player 3 (Bot)'s username?\nInput: ";
-		    cin >> p3Name;
+			cout << "\nWhat is your username?\nInput: ";
+			cin >> p1Name;
+			cout << "\nWhat is Player 2 (Bot)'s username?\nInput: ";
+			cin >> p2Name;
+			cout << "\nWhat is Player 3 (Bot)'s username?\nInput: ";
+			cin >> p3Name;
 			cout << "\nStarting game... \n";
 			break;
 		}
@@ -699,6 +773,7 @@ void ArtsP3(int& card, int& p3c1, int& p3c2, int& p3c3, int& p3c4, int& p3c5, in
 	       DA, D2, D3, D4, D5, D6, D7, D8, D9, D10, DJ, DQ, DK,
 	       HA, H2, H3, H4, H5, H6, H7, H8, H9, H10, HJ, HQ, HK);
 }
+
 
 
 
